@@ -1,6 +1,8 @@
-# 💬 Chatbot template
+#HACKFEST PROJECT
 
-A simple Streamlit app that shows how to build a chatbot using OpenAI's GPT-3.5.
+Build an agentic, data-driven system that spreads awareness about Hepatitis B (HBV) in underrepresented communities (esp. Asian and Pacific Islander populations), combats misinformation, and helps people find screening or vaccination resources.
+Pulls data directly from Stanford Asian Liver Center (ALC)
+
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbot-template.streamlit.app/)
 
