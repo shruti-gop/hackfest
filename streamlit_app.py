@@ -54,3 +54,48 @@ else:
         with st.chat_message("assistant"):
             response = st.write_stream(stream)
         st.session_state.messages.append({"role": "assistant", "content": response})
+
+import streamlit as st
+from openai import OpenAI
+
+client = OpenAI(api_key="YOUR_KEY")
+
+st.title("HepAware: Hepatitis B Awareness Copilot")
+
+tab1, tab2, tab3 = st.tabs(["💬 Ask", "🚫 Myths", "📣 Post Generator"])
+
+# --- Chat Tab ---
+with tab1:
+    q = st.text_input("Ask about Hepatitis B:")
+    if q:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a public health educator about Hepatitis B."},
+                {"role": "user", "content": q}
+            ]
+        )
+        st.write(response.choices[0].message.content)
+
+# --- Myth-Buster Tab ---
+with tab2:
+    myths = {
+        "Only drug users get Hepatitis B":
+            "False — Hep B can spread through birth, sexual contact, or unsterile medical tools.",
+        "You can’t get Hepatitis B vaccine as an adult":
+            "Adults can absolutely get vaccinated — it's safe and effective at any age."
+    }
+    choice = st.selectbox("Choose a myth:", list(myths.keys()))
+    st.write(myths[choice])
+
+# --- Awareness Post Generator ---
+with tab3:
+    audience = st.text_input("Who is this post for?")
+    tone = st.selectbox("Tone", ["Friendly", "Educational", "Urgent"])
+    if st.button("Generate Post"):
+        prompt = f"Write a {tone.lower()} social media post to raise Hepatitis B awareness for {audience}."
+        post = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        st.success(post.choices[0].message.content)
